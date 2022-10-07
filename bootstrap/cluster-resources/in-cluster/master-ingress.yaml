@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.org/mergeable-ingress-type: master
+  creationTimestamp: null
+  name: codefreshhello-master
+  namespace: codefreshhello
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: codefreshhello.15.207.101.142.nip.io
+status:
+  loadBalancer: {}
