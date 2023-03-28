@@ -1,1 +1,37 @@
-This is a YAML file for creating a Kubernetes deployment of a container named "hello". The deployment ensures that there is always one replica of the container running. The container image used is "mgdevstack/hello:latest". The container is configured to run with two command-line arguments: "--foo=flag" and "--timeout=1200". The container listens on port 8080. If the container fails, Kubernetes will automatically restart it.
+const { artillery } = require('artillery');
+
+module.exports = {
+  config: {
+    target: 'ROOST_SVC_URL',
+    phases: [
+      {
+        duration: 10,
+        arrivalRate: 1
+      }
+    ]
+  },
+  scenarios: [
+    {
+      name: 'Test API endpoint',
+      flow: [
+        {
+          get: {
+            url: '/',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        }
+      ]
+    }
+  ],
+  assert: {
+    'status code is 201': (response, done) => {
+      if (response.statusCode === 201) {
+        done();
+      } else {
+        done(new Error(`Expected status code 201 but received ${response.statusCode}`));
+      }
+    }
+  }
+};
