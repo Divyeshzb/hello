@@ -1,37 +1,7 @@
-const { artillery } = require('artillery');
+This is a Kubernetes deployment configuration file written in YAML format. It describes how to deploy a containerized application named "hello" with a single replica. 
 
-module.exports = {
-  config: {
-    target: 'ROOST_SVC_URL',
-    phases: [
-      {
-        duration: 10,
-        arrivalRate: 1
-      }
-    ]
-  },
-  scenarios: [
-    {
-      name: 'Test API endpoint',
-      flow: [
-        {
-          get: {
-            url: '/',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        }
-      ]
-    }
-  ],
-  assert: {
-    'status code is 201': (response, done) => {
-      if (response.statusCode === 201) {
-        done();
-      } else {
-        done(new Error(`Expected status code 201 but received ${response.statusCode}`));
-      }
-    }
-  }
-};
+The container image used is "mgdevstack/hello:latest" and it is configured to run with two arguments: "--foo=flag" and "--timeout=1200". The container exposes port 8080 for incoming traffic. 
+
+The deployment is set to restart the container in case of a failure. The metadata section defines the name of the deployment and labels to match the selector. The selector is used to match the pods that belong to this deployment. 
+
+Overall, this configuration file defines how to deploy and manage a containerized application in a Kubernetes cluster.
